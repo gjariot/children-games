@@ -67,7 +67,7 @@ class CalculationGame extends React.Component {
         
         this.setState({
             resultClass: 'answer-result error',
-            resultMessage: 'La bonne réponse était ' + this.state.result + ''
+            resultMessage: 'La bonne réponse était ' + this.state.result
         });
         
         setTimeout(this.moveToNextCalculation, 1500);
