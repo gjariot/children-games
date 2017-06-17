@@ -123,3 +123,23 @@ body {
 .main-menu a:hover {
     color: black;
 }
+
+/* Colour */
+.colourSource {
+    margin: 0 1rem;
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: solid thin black;
+}
+
+.question.colour .colourPossibleAnswer {
+    text-index: -9999rem;
+    width: 2rem;
+    height: 2rem;
+    border: solid thin black;
+}
+
+.possible-colours {
+    margin: 1rem 0;
+}
