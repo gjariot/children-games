@@ -8,8 +8,8 @@ class Game extends React.Component {
     constructor() {
         super();
         
-        this.GAME_QUESTIONS = 1;
-        this.GAME_CALCULATION = 2;
+        this.GAME_QUESTIONS = '1';
+        this.GAME_CALCULATION = '2';
         
         this.state = {questionClassName: '', calculationClassName: 'game-hidden'};
         
