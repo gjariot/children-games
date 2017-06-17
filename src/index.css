@@ -1,0 +1,108 @@
+body {
+    width: 100%;
+    font-family: 'Tahoma', 'Verdana', 'Georgia', 'sans-serif';
+}
+
+.game-hidden {
+    display: none;
+}
+
+/* Questions / answers */
+.question {
+    text-align: center;
+    margin-top: 20%;
+}
+
+.answer-result {
+    text-align: center;
+}
+
+.answer-result.hidden {
+    display: none;
+}
+
+.answer-result.error {
+    color: red;
+    font-size: 1rem;
+}
+
+.answer-result.success {
+    color: green;
+    font-size: 3rem;
+}
+
+.question, .question input, .question button {
+    font-size: 2rem;
+}
+
+.question input {
+    border: none;
+    border-bottom: solid thin black;
+    margin: 0 2rem;
+}
+
+/* Calculation */
+.calculation {
+    margin: 15% auto 0 auto;
+    width: 10rem;
+}
+
+.calculation > * {
+    display: block;
+}
+
+.calculation, .calculation input, .calculation button {
+    font-size: 2rem;
+}
+
+.calculation input {
+    border: none;
+    border-bottom: solid thin black;
+    margin-bottom: 1rem;
+    direction: RTL;
+    width: 100%;
+}
+
+.calculation-line {
+    display: block;
+    text-align: right;
+}
+
+.calculation-line:last-child {
+    border-bottom: solid thin black;
+}
+
+/* End message */
+.the-end {
+    text-align: center;
+    margin-top: 20%;
+    font-size: 4em;
+    color: green;
+}
+
+.restart-button {
+    font-size: 2rem;
+    cursor: pointer;
+    margin-top: 2rem;
+    color: darkcyan;
+}
+
+/* Menu */
+.main-menu {
+    text-align: center;
+}
+
+.main-menu li {
+    display: inline;
+    margin: 0 3rem;
+}
+
+.main-menu a {
+    font-size: 2em;
+    color: graytext;
+    text-decoration: none;
+}
+
+.main-menu a:hover {
+    color: black;
+}
