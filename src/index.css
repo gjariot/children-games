@@ -35,6 +35,16 @@ body {
     font-size: 2rem;
 }
 
+.question button {
+    display: block;
+    margin: 1rem auto;
+}
+
+.question .give-up {
+    font-size: 0.6rem;
+    color: red;
+}
+
 .question input {
     border: none;
     border-bottom: solid thin black;

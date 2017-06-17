@@ -23,6 +23,18 @@ class QuestionGame extends React.Component {
         this.checkAnswer = this.checkAnswer.bind(this);
         this.moveToNextQuestion = this.moveToNextQuestion.bind(this);
         this.handleRestart = this.handleRestart.bind(this);
+        this.giveUp = this.giveUp.bind(this);
+    }
+    
+    giveUp(event) {
+        event.preventDefault();
+        
+        this.setState({
+            resultClass: 'answer-result error',
+            resultMessage: 'La bonne réponse était "' + this.state.answer + '"'
+        });
+        
+        setTimeout(this.moveToNextQuestion, 1500);
     }
 
     checkAnswer(event) {
@@ -89,6 +101,7 @@ class QuestionGame extends React.Component {
                         handleChange={this.handleChange} 
                         resultClass={this.state.resultClass}
                         resultMessage={this.state.resultMessage}
+                        giveUp={this.giveUp}
                     />
                 }
             </div>
@@ -103,6 +116,7 @@ function QuestionPrompt(props) {
                 {props.question}
                 <input type="text" className="answer" size="15" value={props.userAnswer} onChange={props.handleChange} />
                 <button type="submit">Vérifier</button>
+                <button type="submit" className="give-up" onClick={props.giveUp}>Donner sa langue au chat</button>
             </form>
             <p className={props.resultClass}>{props.resultMessage}</p>
         </section>
