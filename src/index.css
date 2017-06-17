@@ -45,14 +45,21 @@ body {
 .calculation {
     margin: 15% auto 0 auto;
     width: 10rem;
+    font-size: 2rem;
 }
 
 .calculation > * {
     display: block;
 }
 
-.calculation, .calculation input, .calculation button {
+.calculation input, .calculation button {
     font-size: 2rem;
+    margin: 1rem auto;
+}
+
+.calculation .give-up {
+    font-size: 0.6rem;
+    color: red;
 }
 
 .calculation input {

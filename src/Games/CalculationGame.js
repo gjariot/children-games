@@ -19,6 +19,7 @@ class CalculationGame extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
+        this.giveUp = this.giveUp.bind(this);
         this.moveToNextCalculation = this.moveToNextCalculation.bind(this);
     }
     
@@ -60,6 +61,17 @@ class CalculationGame extends React.Component {
             });
         }
     }
+    
+    giveUp(event) {
+        event.preventDefault();
+        
+        this.setState({
+            resultClass: 'answer-result error',
+            resultMessage: 'La bonne réponse était ' + this.state.result + ''
+        });
+        
+        setTimeout(this.moveToNextCalculation, 1500);
+    }
 
     moveToNextCalculation() {
         const newCalculation = this.getCalculation();
@@ -89,6 +101,7 @@ class CalculationGame extends React.Component {
                 handleChange={this.handleChange} 
                 resultClass={this.state.resultClass}
                 resultMessage={this.state.resultMessage}
+                giveUp={this.giveUp}
             />
         );
     }
@@ -106,6 +119,7 @@ function CalculationPrompt(props) {
                 </div>
                 <input type="text" placeholder="=" className="answer" size="1" value={props.userAnswer} onChange={props.handleChange} />
                 <button type="submit">Vérifier</button>
+                <button type="submit" onClick={props.giveUp} className="give-up">Donner sa langue au chat</button>
             </form>
             <p className={props.resultClass}>{props.resultMessage}</p>
         </section>
