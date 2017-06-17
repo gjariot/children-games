@@ -1,17 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EndGameMessage from './Games/EndGameMessage';
 import QuestionGame from './Games/QuestionGame';
 import CalculationGame from './Games/CalculationGame';
 import './index.css';
-import Random from 'random-js';
 
 class Game extends React.Component {
     constructor() {
         super();
         
-        this.GAME_QUESTIONS = 1;
-        this.GAME_CALCULATION = 2;
+        this.GAME_QUESTIONS = '1';
+        this.GAME_CALCULATION = '2';
         
         this.state = {questionClassName: '', calculationClassName: 'game-hidden'};
         
@@ -22,8 +20,8 @@ class Game extends React.Component {
         event.preventDefault();
         
         this.setState({
-            questionClassName: (event.target.getAttribute('data-game') == this.GAME_QUESTIONS ? '' : 'game-hidden'),
-            calculationClassName: (event.target.getAttribute('data-game') == this.GAME_CALCULATION ? '' : 'game-hidden')
+            questionClassName: (event.target.getAttribute('data-game') === this.GAME_QUESTIONS ? '' : 'game-hidden'),
+            calculationClassName: (event.target.getAttribute('data-game') === this.GAME_CALCULATION ? '' : 'game-hidden')
         });
     }
     
