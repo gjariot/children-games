@@ -1,6 +1,4 @@
 import React from 'react';
-import EndGameMessage from './EndGameMessage';
-import questions from '../res/questions.json';
 import Random from 'random-js';
 
 class CalculationGame extends React.Component {
