@@ -1,6 +1,6 @@
 import React from 'react';
 
-function EndGameMessage(props) {
+export default function EndGameMessage(props) {
     return (
         <p className="the-end">
             Tu as répondu à toutes les questions! Félicitations!
@@ -9,5 +9,3 @@ function EndGameMessage(props) {
         </p>
     );
 }
-
-export default EndGameMessage;

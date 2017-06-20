@@ -2,7 +2,7 @@ import React from 'react';
 import Random from 'random-js';
 import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
-class CalculationGame extends React.Component {
+export default class CalculationGame extends React.Component {
     constructor(props) {
         super(props);
         
@@ -114,5 +114,3 @@ function CalculationPrompt(props) {
         </section>
     );
 }
-
-export default CalculationGame;

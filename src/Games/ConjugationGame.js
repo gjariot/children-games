@@ -3,7 +3,7 @@ import rules from '../res/conjugation.json';
 import Random from 'random-js';
 import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
-class ConjugationGame extends React.Component {
+export default class ConjugationGame extends React.Component {
     constructor() {
         super();
 
@@ -112,5 +112,3 @@ function QuestionPrompt(props) {
         </section>
     );
 }
-
-export default ConjugationGame;

@@ -4,7 +4,7 @@ import colourAssociations from '../res/colourAssociations.json';
 import Random from 'random-js';
 import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
-class ColourGame extends React.Component {
+export default class ColourGame extends React.Component {
     constructor() {
         super();
 
@@ -130,5 +130,3 @@ function QuestionPrompt(props) {
         </section>
     );
 }
-
-export default ColourGame;
