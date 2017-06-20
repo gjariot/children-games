@@ -1,5 +1,5 @@
 import React from 'react';
-import EndGameMessage from './EndGameMessage';
+import EndGameMessage from '../Messages/EndGameMessage';
 import questions from '../res/questions.json';
 import Random from 'random-js';
 
