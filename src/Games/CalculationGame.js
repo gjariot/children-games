@@ -114,7 +114,7 @@ function CalculationPrompt(props) {
                 <div className="calculation-definition">
                 {props.members.map(function(member, index) {
                     let value = (index !== 0 ? " + " + member : member);
-                    return <span className="calculation-line">{value}</span>;
+                    return <span key={index} className="calculation-line">{value}</span>;
                 })}
                 </div>
                 <input type="text" placeholder="=" className="answer" size="1" value={props.userAnswer} onChange={props.handleChange} />

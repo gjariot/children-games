@@ -124,15 +124,15 @@ function QuestionPrompt(props) {
         <section>
             <form className="question colour">
                 Qu'obtient-on en mélangeant 
-                {props.coloursMix.map(function(colour) {
+                {props.coloursMix.map(function(colour, index) {
                     const colourStyle = {color: colour, backgroundColor: colour};
-                    return <span className="colourSource" style={colourStyle} />;
+                    return <span key={index} className="colourSource" style={colourStyle} />;
                 }).reduce((prev, curr) => [prev, ' + ', curr])}
                 ?
                 <div className="possible-colours">
-                    {props.proposedAnswers.map(function(colour) {
+                    {props.proposedAnswers.map(function(colour, index) {
                         const colourStyle = {color: colour, backgroundColor: colour};
-                        return <input type="submit" className="colourPossibleAnswer" onClick={props.checkAnswer} style={colourStyle} value={colour} />;
+                        return <input key={index} type="submit" className="colourPossibleAnswer" onClick={props.checkAnswer} style={colourStyle} value={colour} />;
                     }).reduce((prev, curr) => [prev, ' ou ', curr])}
                 </div>
                 <button type="submit" className="give-up" onClick={props.giveUp}>Donner sa langue au chat</button>
