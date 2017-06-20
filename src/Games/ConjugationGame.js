@@ -1,6 +1,7 @@
 import React from 'react';
 import rules from '../res/conjugation.json';
 import Random from 'random-js';
+import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
 class ConjugationGame extends React.Component {
     constructor() {
@@ -16,8 +17,7 @@ class ConjugationGame extends React.Component {
             complement: question.complement,
             answer: question.answer,
             userAnswer: '',
-            resultClass: 'hidden',
-            resultMessage: ''
+            resultMessage: null
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -47,10 +47,7 @@ class ConjugationGame extends React.Component {
     giveUp(event) {
         event.preventDefault();
         
-        this.setState({
-            resultClass: 'answer-result error',
-            resultMessage: 'La bonne réponse était "' + this.state.answer + '"'
-        });
+        this.setState({resultMessage: 'La bonne réponse était "' + this.state.answer + '"'});
         
         setTimeout(this.moveToNextQuestion, 1500);
     }
@@ -59,17 +56,11 @@ class ConjugationGame extends React.Component {
         event.preventDefault();
         
         if (this.state.userAnswer.toLowerCase() === this.state.answer.toLowerCase()) {
-            this.setState({
-                resultClass: 'answer-result success',
-                resultMessage: 'Bravo !'
-            });
+            this.setState({resultMessage: true});
 
             setTimeout(this.moveToNextQuestion, 1250);
         } else {
-            this.setState({
-                resultClass: 'answer-result error',
-                resultMessage: "Oh non, ce n'est pas la bonne réponse!"
-            });
+            this.setState({resultMessage: false});
         }
     }
 
@@ -81,8 +72,7 @@ class ConjugationGame extends React.Component {
             verb: question.verb,
             complement: question.complement,
             answer: question.answer,
-            resultClass: 'answer-result hidden',
-            resultMessage: '',
+            resultMessage: null,
             userAnswer: ''
         });
     }
@@ -101,7 +91,6 @@ class ConjugationGame extends React.Component {
                 userAnswer={this.state.userAnswer}
                 checkAnswer={this.checkAnswer}
                 handleChange={this.handleChange} 
-                resultClass={this.state.resultClass}
                 resultMessage={this.state.resultMessage}
                 giveUp={this.giveUp}
             />
@@ -119,7 +108,7 @@ function QuestionPrompt(props) {
                 <button type="submit">Vérifier</button>
                 <button type="submit" className="give-up" onClick={props.giveUp}>Donner sa langue au chat</button>
             </form>
-            <p className={props.resultClass}>{props.resultMessage}</p>
+            {props.resultMessage === true ? <SuccessMessage /> : (props.resultMessage === false ? <ErrorMessage /> : <ShowErrorMessage message={props.resultMessage} />)}
         </section>
     );
 }

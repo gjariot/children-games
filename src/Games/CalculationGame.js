@@ -1,5 +1,6 @@
 import React from 'react';
 import Random from 'random-js';
+import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
 class CalculationGame extends React.Component {
     constructor(props) {
@@ -13,8 +14,7 @@ class CalculationGame extends React.Component {
                 return total + currentValue;
             }),
             userAnswer: '',
-            resultClass: 'hidden',
-            resultMessage: ''
+            resultMessage: null
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -48,27 +48,18 @@ class CalculationGame extends React.Component {
         event.preventDefault();
         
         if (parseInt(this.state.userAnswer, 10) === this.state.result) {
-            this.setState({
-                resultClass: 'answer-result success',
-                resultMessage: 'Bravo !'
-            });
+            this.setState({resultMessage: true});
 
             setTimeout(this.moveToNextCalculation, 1250);
         } else {
-            this.setState({
-                resultClass: 'answer-result error',
-                resultMessage: "Oh non, ce n'est pas la bonne réponse!"
-            });
+            this.setState({resultMessage: false});
         }
     }
     
     giveUp(event) {
         event.preventDefault();
         
-        this.setState({
-            resultClass: 'answer-result error',
-            resultMessage: 'La bonne réponse était ' + this.state.result
-        });
+        this.setState({resultMessage: 'La bonne réponse était ' + this.state.result});
         
         setTimeout(this.moveToNextCalculation, 1500);
     }
@@ -82,8 +73,7 @@ class CalculationGame extends React.Component {
                 return total + currentValue;
             }),
             userAnswer: '',
-            resultClass: 'hidden',
-            resultMessage: ''
+            resultMessage: null
         });
     }
 
@@ -99,7 +89,6 @@ class CalculationGame extends React.Component {
                 userAnswer={this.state.userAnswer}
                 checkAnswer={this.checkAnswer}
                 handleChange={this.handleChange} 
-                resultClass={this.state.resultClass}
                 resultMessage={this.state.resultMessage}
                 giveUp={this.giveUp}
             />
@@ -121,7 +110,7 @@ function CalculationPrompt(props) {
                 <button type="submit">Vérifier</button>
                 <button type="submit" onClick={props.giveUp} className="give-up">Donner sa langue au chat</button>
             </form>
-            <p className={props.resultClass}>{props.resultMessage}</p>
+            {props.resultMessage === true ? <SuccessMessage /> : (props.resultMessage === false ? <ErrorMessage /> : <ShowErrorMessage message={props.resultMessage} />)}
         </section>
     );
 }

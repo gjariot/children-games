@@ -2,6 +2,7 @@ import React from 'react';
 import EndGameMessage from '../Messages/EndGameMessage';
 import colourAssociations from '../res/colourAssociations.json';
 import Random from 'random-js';
+import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
 class ColourGame extends React.Component {
     constructor() {
@@ -17,8 +18,7 @@ class ColourGame extends React.Component {
             coloursMix: this.colourAssociations[colourToFind],
             answer: colourToFind,
             possibleAnswers: this.getRandomColours(colourToFind),
-            resultClass: 'hidden',
-            resultMessage: '',
+            resultMessage: null,
             questionsEnded: false
         };
 
@@ -42,10 +42,7 @@ class ColourGame extends React.Component {
     giveUp(event) {
         event.preventDefault();
         
-        this.setState({
-            resultClass: 'answer-result error',
-            resultMessage: 'La bonne réponse était "' + this.state.answer + '"'
-        });
+        this.setState({resultMessage: 'La bonne réponse était "' + this.state.answer + '"'});
         
         setTimeout(this.moveToNextQuestion, 1500);
     }
@@ -54,17 +51,11 @@ class ColourGame extends React.Component {
         event.preventDefault();
         
         if (event.target.value === this.state.answer) {
-            this.setState({
-                resultClass: 'answer-result success',
-                resultMessage: 'Bravo !'
-            });
+            this.setState({resultMessage: true});
 
             setTimeout(this.moveToNextQuestion, 1250);
         } else {
-            this.setState({
-                resultClass: 'answer-result error',
-                resultMessage: "Oh non, ce n'est pas la bonne réponse!"
-            });
+            this.setState({resultMessage: false});
         }
     }
 
@@ -86,8 +77,7 @@ class ColourGame extends React.Component {
             coloursMix: this.colourAssociations[colourToFind],
             answer: colourToFind,
             possibleAnswers: this.getRandomColours(colourToFind),
-            resultClass: 'answer-result hidden',
-            resultMessage: '',
+            resultMessage: null,
             questionsEnded: false
         });
     }
@@ -109,7 +99,6 @@ class ColourGame extends React.Component {
                         answer={this.state.answer}
                         proposedAnswers={this.state.possibleAnswers}
                         checkAnswer={this.checkAnswer}
-                        resultClass={this.state.resultClass}
                         resultMessage={this.state.resultMessage}
                         giveUp={this.giveUp}
                     />
@@ -137,7 +126,7 @@ function QuestionPrompt(props) {
                 </div>
                 <button type="submit" className="give-up" onClick={props.giveUp}>Donner sa langue au chat</button>
             </form>
-            <p className={props.resultClass}>{props.resultMessage}</p>
+            {props.resultMessage === true ? <SuccessMessage /> : (props.resultMessage === false ? <ErrorMessage /> : <ShowErrorMessage message={props.resultMessage} />)}
         </section>
     );
 }
