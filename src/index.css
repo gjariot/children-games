@@ -1,6 +1,8 @@
 body {
     width: 100%;
     font-family: 'Tahoma', 'Verdana', 'Georgia', 'sans-serif';
+    background: url('res/background.png') no-repeat center center fixed;
+    background-size: cover;
 }
 
 .game-hidden {
@@ -49,6 +51,7 @@ body {
     border: none;
     border-bottom: solid thin black;
     margin: 0 2rem;
+    background: none;
 }
 
 /* Calculation */
@@ -78,6 +81,7 @@ body {
     margin-bottom: 1rem;
     direction: RTL;
     width: 100%;
+    background: none;
 }
 
 .calculation-line {
@@ -116,7 +120,7 @@ body {
 
 .main-menu a {
     font-size: 2em;
-    color: graytext;
+    color: white;
     text-decoration: none;
 }
 
@@ -153,6 +157,10 @@ body {
     vertical-align: middle;
 }
 
+.possible-answers-list input {
+    border-width: thick;    
+}
+
 .possible-answer-item {
     display: block;
 }
@@ -162,10 +170,14 @@ body {
     position: absolute;
     bottom: 0px;
     right: 0px;
+    height: 5rem;
     text-align: center;
-    margin: 0 2rem 2rem 0;
-    color: #060;
+    margin: 0 2rem 0;
+    padding: 3rem 6rem 0 0;
+    color: white;
     font-weight: bold;
+    background: url('res/happy.png') no-repeat right center;
+    background-size: 20%;
 }
 .answers-count.hidden {
     display: none;
