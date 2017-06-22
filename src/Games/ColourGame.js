@@ -53,6 +53,7 @@ export default class ColourGame extends React.Component {
             )
         });
         
+        this.userAnswerCallback(false);
         setTimeout(this.moveToNextQuestion, 1500);
     }
 

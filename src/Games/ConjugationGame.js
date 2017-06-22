@@ -67,6 +67,7 @@ export default class ConjugationGame extends React.Component {
         event.preventDefault();
         
         this.setState({resultMessage: 'La bonne réponse était "' + this.state.answer + '"'});
+        this.userAnswerCallback(false);
         
         setTimeout(this.moveToNextQuestion, 1500);
     }

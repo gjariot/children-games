@@ -63,6 +63,7 @@ export default class CalculationGame extends React.Component {
         event.preventDefault();
         
         this.setState({resultMessage: 'La bonne réponse était ' + this.state.result});
+        this.userAnswerCallback(false);
         
         setTimeout(this.moveToNextCalculation, 1500);
     }
