@@ -155,3 +155,17 @@ body {
 .possible-answer-item {
     display: block;
 }
+
+/* Answers count */
+.answers-count {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    text-align: center;
+    margin: 0 2rem 2rem 0;
+    color: #060;
+    font-weight: bold;
+}
+.answers-count.hidden {
+    display: none;
+}

@@ -17,6 +17,7 @@ export default class CalculationGame extends React.Component {
             resultMessage: null
         };
 
+        this.userAnswerCallback = props.userAnswerCallback;
         this.handleChange = this.handleChange.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
         this.giveUp = this.giveUp.bind(this);
@@ -49,10 +50,12 @@ export default class CalculationGame extends React.Component {
         
         if (parseInt(this.state.userAnswer, 10) === this.state.result) {
             this.setState({resultMessage: true});
+            this.userAnswerCallback(true);
 
             setTimeout(this.moveToNextCalculation, 1250);
         } else {
             this.setState({resultMessage: false});
+            this.userAnswerCallback(false);
         }
     }
     

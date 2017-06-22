@@ -5,8 +5,8 @@ import Random from 'random-js';
 import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
 export default class ColourGame extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.colourAssociations = colourAssociations;
         this.coloursToFind = new Random().shuffle(Object.keys(colourAssociations));
@@ -22,6 +22,7 @@ export default class ColourGame extends React.Component {
             questionsEnded: false
         };
 
+        this.userAnswerCallback = props.userAnswerCallback;
         this.checkAnswer = this.checkAnswer.bind(this);
         this.moveToNextQuestion = this.moveToNextQuestion.bind(this);
         this.handleRestart = this.handleRestart.bind(this);
@@ -52,10 +53,12 @@ export default class ColourGame extends React.Component {
         
         if (event.target.value === this.state.answer) {
             this.setState({resultMessage: true});
+            this.userAnswerCallback(true);
 
             setTimeout(this.moveToNextQuestion, 1250);
         } else {
             this.setState({resultMessage: false});
+            this.userAnswerCallback(false);
         }
     }
 

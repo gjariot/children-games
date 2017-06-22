@@ -5,8 +5,8 @@ import Random from 'random-js';
 import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
 export default class QuestionGame extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.questions = new Random().shuffle(questions);
         this.currentQuestionIndex = 0;
@@ -19,6 +19,7 @@ export default class QuestionGame extends React.Component {
             questionsEnded: false
         };
 
+        this.userAnswerCallback = props.userAnswerCallback;
         this.handleChange = this.handleChange.bind(this);
         this.checkAnswer = this.checkAnswer.bind(this);
         this.moveToNextQuestion = this.moveToNextQuestion.bind(this);
@@ -39,10 +40,12 @@ export default class QuestionGame extends React.Component {
         
         if (this.state.userAnswer.toLowerCase().includes(this.state.answer.toLowerCase())) {
             this.setState({resultMessage: true});
+            this.userAnswerCallback(true);
 
             setTimeout(this.moveToNextQuestion, 1250);
         } else {
             this.setState({resultMessage: false});
+            this.userAnswerCallback(false);
         }
     }
 

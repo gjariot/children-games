@@ -8,17 +8,21 @@ class Game extends React.Component {
     constructor() {
         super();
         
-        this.state = {gamesClassNames: this.getGamesClassNames('0')};
+        this.state = {
+            gamesClassNames: this.getGamesClassNames('0'),
+            successfullAnswersCount: 0
+        };
         
         this.toggleGame = this.toggleGame.bind(this);
+        this.triggerUserAnswer = this.triggerUserAnswer.bind(this);
     }
     
     getGames() {
         return [
-            {"label": "Questions", "component": () => <QuestionGame />},
-            {"label": "Calculs", "component": () => <CalculationGame />},
-            {"label": "Couleurs", "component": () => <ColourGame />},
-            {"label": "Conjugaison", "component": () => <ConjugationGame />}
+            {"label": "Questions", "component": () => <QuestionGame userAnswerCallback={this.triggerUserAnswer} />},
+            {"label": "Calculs", "component": () => <CalculationGame userAnswerCallback={this.triggerUserAnswer} />},
+            {"label": "Couleurs", "component": () => <ColourGame userAnswerCallback={this.triggerUserAnswer} />},
+            {"label": "Conjugaison", "component": () => <ConjugationGame userAnswerCallback={this.triggerUserAnswer} />}
         ];
     }
     
@@ -32,6 +36,11 @@ class Game extends React.Component {
         event.preventDefault();
         
         this.setState({gamesClassNames: this.getGamesClassNames(event.target.getAttribute('data-game'))});
+    }
+    
+    triggerUserAnswer(isSuccessfull) {
+        const newSuccessfullAnswersCount = (isSuccessfull === true ? this.state.successfullAnswersCount + 1 : 0);
+        this.setState({successfullAnswersCount: newSuccessfullAnswersCount});
     }
     
     render() {
@@ -50,6 +59,9 @@ class Game extends React.Component {
                 </div>
                     );
                 }, this)}
+                <div className={'answers-count' + (this.state.successfullAnswersCount < 2 ? ' hidden' : '')}>
+                    {this.state.successfullAnswersCount} bonnes réponses consécutives!
+                </div>
             </div>
         );
     }

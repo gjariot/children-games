@@ -4,8 +4,8 @@ import Random from 'random-js';
 import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
 
 export default class ConjugationGame extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.rules = rules;
         
@@ -20,6 +20,7 @@ export default class ConjugationGame extends React.Component {
             resultMessage: null
         };
 
+        this.userAnswerCallback = props.userAnswerCallback;
         this.checkAnswer = this.checkAnswer.bind(this);
         this.moveToNextQuestion = this.moveToNextQuestion.bind(this);
         this.giveUp = this.giveUp.bind(this);
@@ -42,6 +43,7 @@ export default class ConjugationGame extends React.Component {
             this.getConjugationBySubject(verb, this.rules.groups[group], '1p'),
             this.getConjugationBySubject(verb, this.rules.groups[group], '2p'),
             this.getConjugationBySubject(verb, this.rules.groups[group], '3p'),
+            
         ];
         
         possibleAnswers = random.shuffle(possibleAnswers.filter(function(value, index, self) {
@@ -74,10 +76,12 @@ export default class ConjugationGame extends React.Component {
         
         if (event.target.answer.value === this.state.answer) {
             this.setState({resultMessage: true});
+            this.userAnswerCallback(true);
 
             setTimeout(this.moveToNextQuestion, 1250);
         } else {
             this.setState({resultMessage: false});
+            this.userAnswerCallback(false);
         }
     }
 
