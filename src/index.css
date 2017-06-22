@@ -143,3 +143,15 @@ body {
 .possible-colours {
     margin: 1rem 0;
 }
+
+/* Conjugation */
+.possible-answers-list {
+    display: inline-block;
+    text-align: left;
+    margin: 0 5rem 0 3rem;
+    vertical-align: middle;
+}
+
+.possible-answer-item {
+    display: block;
+}
