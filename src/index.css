@@ -125,16 +125,13 @@ body {
 }
 
 /* Colour */
-.colourSource {
+.colour-source {
     margin: 0 1rem;
     display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    border: solid thin black;
 }
 
-.question.colour .colourPossibleAnswer {
-    text-index: -9999rem;
+.question.colour .colour-possible-answer, .colour-source {
+    text-indent: -9999rem;
     width: 2rem;
     height: 2rem;
     border: solid thin black;
@@ -142,6 +139,10 @@ body {
 
 .possible-colours {
     margin: 1rem 0;
+}
+
+.colour-wrong-answer .colour-source {
+    vertical-align: middle;
 }
 
 /* Conjugation */

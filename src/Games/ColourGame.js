@@ -43,7 +43,15 @@ export default class ColourGame extends React.Component {
     giveUp(event) {
         event.preventDefault();
         
-        this.setState({resultMessage: 'La bonne réponse était "' + this.state.answer + '"'});
+        const colourStyle = {backgroundColor: this.state.answer};
+        this.setState({
+            resultMessage: (
+                <p className="colour-wrong-answer">
+                    La bonne réponse était
+                    <span className="colour-source" style={colourStyle}>{this.state.answer}</span>
+                </p>
+            )
+        });
         
         setTimeout(this.moveToNextQuestion, 1500);
     }
@@ -117,14 +125,14 @@ function QuestionPrompt(props) {
             <form className="question colour">
                 Qu'obtient-on en mélangeant 
                 {props.coloursMix.map(function(colour, index) {
-                    const colourStyle = {color: colour, backgroundColor: colour};
-                    return <span key={index} className="colourSource" style={colourStyle} />;
+                    const colourStyle = {backgroundColor: colour};
+                    return <span key={index} className="colour-source" style={colourStyle}>{colour}</span>;
                 }).reduce((prev, curr) => [prev, ' + ', curr])}
                 ?
                 <div className="possible-colours">
                     {props.proposedAnswers.map(function(colour, index) {
-                        const colourStyle = {color: colour, backgroundColor: colour};
-                        return <input key={index} type="submit" className="colourPossibleAnswer" onClick={props.checkAnswer} style={colourStyle} value={colour} />;
+                        const colourStyle = {backgroundColor: colour};
+                        return <input key={index} type="submit" className="colour-possible-answer" onClick={props.checkAnswer} style={colourStyle} value={colour} />;
                     }).reduce((prev, curr) => [prev, ' ou ', curr])}
                 </div>
                 <button type="submit" className="give-up" onClick={props.giveUp}>Donner sa langue au chat</button>
