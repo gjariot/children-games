@@ -56,9 +56,14 @@ body {
 
 /* Calculation */
 .calculation {
-    margin: 15% auto 0 auto;
-    width: 10rem;
+    margin-top: 15%;
     font-size: 2rem;
+    text-align: center;
+}
+
+.calculation .calculation-instance {
+    width: 10rem;
+    margin: 0 auto;
 }
 
 .calculation > * {
@@ -75,7 +80,7 @@ body {
     color: red;
 }
 
-.calculation input {
+.calculation .answer {
     border: none;
     border-bottom: solid thin black;
     margin-bottom: 1rem;
@@ -91,6 +96,26 @@ body {
 
 .calculation-line:last-child {
     border-bottom: solid thin black;
+}
+
+.calculation .operation-types li {
+    display: inline;
+    padding: 0 1rem;
+}
+
+.calculation .operation-types {
+    padding: 0;
+    font-size: 0.6rem;
+}
+
+.calculation .operation-types label {
+    cursor: pointer;
+    display: inline;
+}
+
+.operation-type-selector {
+    position: relative;
+    top: 5px;
 }
 
 /* End message */

@@ -1,20 +1,26 @@
 import React from 'react';
 import Random from 'random-js';
 import {SuccessMessage, ErrorMessage, ShowErrorMessage} from '../Messages/AnswerMessages';
+import AdditionGameConfiguration from './AdditionGameConfiguration';
+import MultiplicationGameConfiguration from './MultiplicationGameConfiguration';
+import SubstractionGameConfiguration from './SubstractionGameConfiguration';
 
-export default class CalculationGame extends React.Component {
+export default class CalculationGame extends React.Component {   
     constructor(props) {
         super(props);
         
-        const defaultCalculation = this.getCalculation();
+        const defaultAllowedOperationTypes = new Set([
+            AdditionGameConfiguration.getOperationType(),
+            SubstractionGameConfiguration.getOperationType(),
+            MultiplicationGameConfiguration.getOperationType()
+        ]);
+        const defaultCalculation = this.getCalculation(defaultAllowedOperationTypes);
 
         this.state = {
             calculation: defaultCalculation,
-            result: defaultCalculation.reduce(function(total, currentValue){
-                return total + currentValue;
-            }),
             userAnswer: '',
-            resultMessage: null
+            resultMessage: null,
+            allowedOperationTypes: defaultAllowedOperationTypes
         };
 
         this.userAnswerCallback = props.userAnswerCallback;
@@ -22,33 +28,37 @@ export default class CalculationGame extends React.Component {
         this.checkAnswer = this.checkAnswer.bind(this);
         this.giveUp = this.giveUp.bind(this);
         this.moveToNextCalculation = this.moveToNextCalculation.bind(this);
+        this.handleOperationTypeChange = this.handleOperationTypeChange.bind(this);
     }
     
-    getCalculationResult(members) {
-        if (members.length === 0) {
-            return 0;
-        }
-    
-        return members.reduce(function(total, currentValue){
-            return total + currentValue;
-        });
-    }
-    
-    getCalculation() {
+    getCalculation(allowedOperationTypes) {
         const random = new Random();
-        let members = [];
-        
-        while((this.getCalculationResult(members) < 50 || members.length < 2) && members.length < 3) {
-            members.push(random.integer(1, 20));
+        const operationType = random.pick([...allowedOperationTypes]);
+        let game;
+
+        switch (operationType) {
+            case MultiplicationGameConfiguration.getOperationType():
+                game = new MultiplicationGameConfiguration();
+                break;
+                
+            case SubstractionGameConfiguration.getOperationType():
+                game = new SubstractionGameConfiguration();
+                break;
+            
+            case AdditionGameConfiguration.getOperationType():
+            default:
+                game = new AdditionGameConfiguration();
+                break;
         }
         
-        return members;
+        game.generate();
+        return game;
     }
 
     checkAnswer(event) {
         event.preventDefault();
         
-        if (parseInt(this.state.userAnswer, 10) === this.state.result) {
+        if (parseInt(this.state.userAnswer, 10) === this.state.calculation.getResult()) {
             this.setState({resultMessage: true});
             this.userAnswerCallback(true);
 
@@ -62,20 +72,17 @@ export default class CalculationGame extends React.Component {
     giveUp(event) {
         event.preventDefault();
         
-        this.setState({resultMessage: 'La bonne réponse était ' + this.state.result});
+        this.setState({resultMessage: 'La bonne réponse était ' + this.state.calculation.getResult()});
         this.userAnswerCallback(false);
         
         setTimeout(this.moveToNextCalculation, 1500);
     }
 
     moveToNextCalculation() {
-        const newCalculation = this.getCalculation();
+        const newCalculation = this.getCalculation(this.state.allowedOperationTypes);
         
         this.setState({
             calculation: newCalculation,
-            result: newCalculation.reduce(function(total, currentValue){
-                return total + currentValue;
-            }),
             userAnswer: '',
             resultMessage: null
         });
@@ -84,17 +91,31 @@ export default class CalculationGame extends React.Component {
     handleChange(event) {
         this.setState({userAnswer: event.target.value});
     }
+    
+    handleOperationTypeChange(event) {
+        let allowedOperationTypes = this.state.allowedOperationTypes;
+        const operationType = parseInt(event.target.value);
+        
+        if (allowedOperationTypes.has(operationType) === false) {
+            allowedOperationTypes.add(operationType);
+        } else {
+            allowedOperationTypes.delete(operationType);
+        }
+        console.log(allowedOperationTypes);
+        this.setState({allowedOperationTypes: allowedOperationTypes});
+    }
 
     render() {
         return (
             <CalculationPrompt
-                members={this.state.calculation}
-                result={this.state.result}
+                calculation={this.state.calculation}
                 userAnswer={this.state.userAnswer}
                 checkAnswer={this.checkAnswer}
                 handleChange={this.handleChange} 
                 resultMessage={this.state.resultMessage}
+                handleOperationTypeChange={this.handleOperationTypeChange}
                 giveUp={this.giveUp}
+                allowedOperationTypes={this.state.allowedOperationTypes}
             />
         );
     }
@@ -104,15 +125,22 @@ function CalculationPrompt(props) {
     return (
         <section>
             <form className="calculation" onSubmit={props.checkAnswer}>
-                <div className="calculation-definition">
-                {props.members.map(function(member, index) {
-                    let value = (index !== 0 ? " + " + member : member);
-                    return <span key={index} className="calculation-line">{value}</span>;
-                })}
+                <ul className="operation-types">
+                    <li><label htmlFor="operation-type-additions">Additions</label> <input id="operation-type-additions" type="checkbox" className="operation-type-selector" name="operationType" value={AdditionGameConfiguration.getOperationType()} checked={props.allowedOperationTypes.has(AdditionGameConfiguration.getOperationType())} onChange={props.handleOperationTypeChange}/></li>
+                    <li><label htmlFor="operation-type-substractions">Soustractions</label> <input id="operation-type-substractions" type="checkbox" className="operation-type-selector" name="operationType" value={SubstractionGameConfiguration.getOperationType()} checked={props.allowedOperationTypes.has(SubstractionGameConfiguration.getOperationType())} onChange={props.handleOperationTypeChange}/></li>
+                    <li><label htmlFor="operation-type-multiplications">Multiplications</label> <input id="operation-type-multiplications" type="checkbox" className="operation-type-selector" name="operationType" value={MultiplicationGameConfiguration.getOperationType()} checked={props.allowedOperationTypes.has(MultiplicationGameConfiguration.getOperationType())} onChange={props.handleOperationTypeChange}/></li>
+                </ul>
+                <div className="calculation-instance">
+                    <div className="calculation-definition">
+                    {props.calculation.getMembers().map(function(member, index) {
+                        let value = (index !== 0 ? " " + props.calculation.getOperator() + " " + member : member);
+                        return <span key={index} className="calculation-line">{value}</span>;
+                    })}
+                    </div>
+                    <input type="text" placeholder="=" className="answer" size="1" value={props.userAnswer} onChange={props.handleChange} />
+                    <button type="submit">Vérifier</button>
+                    <button type="submit" onClick={props.giveUp} className="give-up">Donner sa langue au chat</button>
                 </div>
-                <input type="text" placeholder="=" className="answer" size="1" value={props.userAnswer} onChange={props.handleChange} />
-                <button type="submit">Vérifier</button>
-                <button type="submit" onClick={props.giveUp} className="give-up">Donner sa langue au chat</button>
             </form>
             {props.resultMessage === true ? <SuccessMessage /> : (props.resultMessage === false ? <ErrorMessage /> : <ShowErrorMessage message={props.resultMessage} />)}
         </section>
